@@ -1,0 +1,37 @@
+smpl_root = "data/smplx_models"
+smpl_shapes_dir = "data/smpl_shapes"
+smpl_motions_dir = "data/smpl_motions/"
+predicted_contacts_dir = "data/predicted_contacts/"
+object_positions_dir = "data/object_locations/"
+predicted_object_positions_dir = "data/naive_object_location_predictions/"
+gt_contacts_dir = "data/gt_contacts/"
+object_models_dir = "data/object_models/"
+output_smpl_motions_dir = "results/smpl_motions/"
+output_object_positions_dir = "results/object_locations/"
+output_configs_dir = "results/configs/"
+output_metrics_dir = "results/metrics/"
+
+object_name = "MPI_EG_shoe"
+seqname = "SUB2_MPI_EG_shoe.01"
+expname = ""
+relocate_body_to_start = true
+straight_hands = false
+contact_smoothing_thresh = 0.5
+sequence_interval = [25.0, 50.00]
+use_end_objpose = false
+use_gt_contact_intervals = false
+interaction_type = "two_handed"
+motion_type = "along_floor"
+motion_format_version = 1
+contact_labeling_thresh = 0.9
+compute_endpoint_metrics = true
+
+[start_reloc_params]
+traj_mod_type="optimization"
+traj_mod_window=100
+iters_count=300
+[start_reloc_params.flextape_opt_params]
+iters_count=1000
+lr = 1e-4
+rigid_delta = 1e20
+dtype = "float64"

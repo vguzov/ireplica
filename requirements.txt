@@ -1,0 +1,12 @@
+numpy>=1.20
+toml
+tqdm
+dacite
+loguru
+zipjson
+smplx
+torch
+trimesh
+termplotlib
+scipy
+scikit-learn

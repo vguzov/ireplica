@@ -1,0 +1,52 @@
+sequence_type = "multi_action"
+
+smpl_root = "data/smplx_models"
+smpl_shapes_dir = "data/smpl_shapes"
+smpl_motions_dir = "data/smpl_motions/"
+predicted_contacts_dir = "data/predicted_contacts/"
+object_positions_dir = "data/object_locations/"
+predicted_object_positions_dir = "data/naive_object_location_predictions/"
+gt_contacts_dir = "data/gt_contacts/"
+object_models_dir = "data/object_models/"
+output_smpl_motions_dir = "results/smpl_motions/"
+output_object_positions_dir = "results/object_locations/"
+output_configs_dir = "results/configs/"
+output_metrics_dir = "results/metrics/"
+
+seqname = "SUB6_TUB_2OG_multiroom.03"
+expname = ""
+relocate_body_to_each_object = true
+relocate_body_to_start = true
+straight_hands = false
+contact_smoothing_thresh = 0.5
+sequence_interval = [0.0, 220.00]
+use_end_objpose = false
+use_gt_contact_intervals = false
+motion_format_version = 2
+compute_endpoint_metrics = true
+object_interaction_dist_thresh = 0.8
+first_object_interaction_dist_thresh = 0.5
+
+absent_objects = ["TUB_2OG_confchairpart", "TUB_2OG_corridorsofaleft"]
+
+[start_reloc_params]
+traj_mod_type="translation"
+traj_mod_window=100
+iters_count=300
+[start_reloc_params.flextape_opt_params]
+iters_count=1000
+lr = 1e-4
+rigid_delta = 1e10
+dtype = "float64"
+
+[contact_predictor_classes]
+hinge = {thresh = 0.5}
+floor = {thresh = 0.5}
+
+
+[object_motion_params]
+TUB_2OG_cbofficedoor = {motion_type = "hinge", interaction_type="single_handed", contact_predictor_class="hinge"}
+TUB_2OG_confdoor = {motion_type = "hinge", interaction_type="single_handed", contact_predictor_class="hinge"}
+TUB_2OG_confchairfull = {motion_type = "along_floor", interaction_type="two_handed", contact_predictor_class="floor"}
+TUB_2OG_confdrawerright = {motion_type = "hinge", interaction_type="single_handed", contact_predictor_class="hinge"}
+TUB_2OG_corridorwindow = {motion_type = "hinge", interaction_type="single_handed", contact_predictor_class="hinge"}

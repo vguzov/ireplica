@@ -1,0 +1,54 @@
+sequence_type = "multi_action" # type of sequence (default is "single_action")
+
+smpl_root = "data/smplx_models" # SMPL-X models data directory
+smpl_shapes_dir = "data/smpl_shapes" # Subject shapes directory
+smpl_motions_dir = "data/smpl_motions/" # Initial subject motion estimates (from HPS)
+predicted_contacts_dir = "data/predicted_contacts/" # Contacts predicted by the concact prediction net (from ireplica_contact_prediction repo)
+object_positions_dir = "data/object_locations/" # Initial object locations
+predicted_object_positions_dir = "data/naive_object_location_predictions/" # (exp. evaluation only) object positions predicted with naive RGB-based method
+gt_contacts_dir = "data/gt_contacts/" # (exp. eval. only) GT contacts
+object_models_dir = "data/object_models/" # 3D object models (pointclouds)
+output_smpl_motions_dir = "results/smpl_motions/" # Output directory for subject's motions
+output_object_positions_dir = "results/object_locations/" # Output directory for objects' motions
+output_configs_dir = "results/configs/" # Output config directory (to make a copy of precise configuration the system was running)
+output_metrics_dir = "results/metrics/" # (evaluation only) exp. metrics directory
+
+seqname = "multiroom.01" # Motion sequence name
+expname = "" # Experiment suffix, useful for testing different parameter sets
+relocate_body_to_each_object = true # Interaction position correction for all objects
+relocate_body_to_start = true # Initial interaction position correction
+straight_hands = false # If true, uses SMPL-H straight hands, if false, bends the hands more naturally
+contact_smoothing_thresh = 0.5 # Maximum filling interval between two active contacts, in seconds
+sequence_interval = [0.0, 50.00] # Time interval of the motions to be processed
+use_end_objpose = false # If true, will snap object to the final GT pose (if known) after interaction is done - useful for testing naive RGB localization that is usually too far
+use_gt_contact_intervals = false # If true, uses GT interaction intervals instead of the ones detected by the contact prediction network
+motion_format_version = 2 # Output moton format version, 1 for single-object .json version, 2 for multi-object .json.zip version
+compute_endpoint_metrics = true # Whether to compute metrics related to final object position (distance and rotation angle error)
+object_interaction_dist_thresh = 0.8 # Maximum distance for a valid object interaction detection
+first_object_interaction_dist_thresh = 0.5 # Maximum distance for a first valid object interaction detection
+
+absent_objects = [] # In case some of the objects are mapped on the interaction scene, but missing in the actual sequence, insert their names here
+
+[start_reloc_params] # Initial interaction position correction params (if enabled)
+traj_mod_type="optimization" # Type of correction (trajectory coordinates "translation" or flextape-like "optimization")
+iters_count=300 # Number of iteraction for closest interaction point algorithm
+[start_reloc_params.flextape_opt_params] # Optimization parameters if optimization is selected
+iters_count=1000 # Number of optimization iterations
+lr = 1e-4 # Optimization rate for Adam optimizer
+rigid_delta = 1e3 # Rigidity of trajectory
+dtype = "float64" # Computation datatype
+
+[contact_predictor_classes] # Class-specific contact prediction models and binarization threshold for each of them
+hinge = {thresh = 0.5}
+floor = {thresh = 0.5}
+
+
+[object_motion_params] # Class description for each object, determined by its motion and interaction type and responsible contact prediction network
+TUB_2OG_smallmeetwindow = {motion_type = "hinge", interaction_type="single_handed", contact_predictor_class="hinge"}
+TUB_2OG_smallmeetchairleft = {motion_type = "along_floor", interaction_type="two_handed", contact_predictor_class="floor"}
+TUB_2OG_smallmeettable = {motion_type = "along_floor", interaction_type="two_handed", contact_predictor_class="floor"}
+TUB_2OG_smallmeetdoor = {motion_type = "hinge", interaction_type="single_handed", contact_predictor_class="hinge"}
+TUB_2OG_confdoor = {motion_type = "hinge", interaction_type="single_handed", contact_predictor_class="hinge"}
+TUB_2OG_confchairfull = {motion_type = "along_floor", interaction_type="two_handed", contact_predictor_class="floor"}
+TUB_2OG_confdrawerright = {motion_type = "hinge", interaction_type="single_handed", contact_predictor_class="hinge"}
+TUB_2OG_corridorwindow = {motion_type = "hinge", interaction_type="single_handed", contact_predictor_class="hinge"}
