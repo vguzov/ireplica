@@ -8,6 +8,7 @@ The system consists of several modules, namely:
 
 - Core inference module (this repository)
 - Contact prediction module (https://github.com/vguzov/ireplica_contact_prediction)
+- Camera localization module (https://github.com/vguzov/camera_localization)
 - Interactive visualization and dataset annotation tool (https://github.com/vguzov/cloudvis)
 
 Instructions below cover the installation of the core inference module, for the other modules please refer to the respective repositories.
